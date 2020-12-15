@@ -36,7 +36,6 @@ public class TruthTable {
 			}
 		}
 		function = fn.stream().map(String::valueOf).collect(Collectors.joining(""));
-		System.out.println(function);
 	}
 
 	private String calculate(String fn) {
