@@ -1,10 +1,15 @@
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class TruthTable {
 	private String function;
 	private Character[] characters;
 
 	public TruthTable(String function) {
 		this.function = function.replaceAll(" ", "");
-		java.util.List<Character> list = new java.util.ArrayList<Character>();
+		List<Character> list = new ArrayList<Character>();
 		for (char c = 'a'; c <= 'z'; c++) {
 			if (function.contains(Character.toString(c)) && !list.contains(c)) {
 				list.add(c);
@@ -12,10 +17,26 @@ public class TruthTable {
 		}
 		list.sort((a, b) -> a - b);
 		characters = list.toArray(Character[]::new);
+		subAnd();
 	}
 	public TruthTable(String function, Character... characters) {
 		this.function = function.replaceAll(" ", "");
 		this.characters = characters;
+		subAnd();
+	}
+
+	private void subAnd() {
+		List<Character> chars = Arrays.asList(characters);
+		List<Character> fn = function.chars().mapToObj(i -> (char) i).collect(Collectors.toList());
+		for (int i = 0; i < fn.size() - 1; i++) {
+			if (chars.contains(fn.get(i)) && chars.contains(fn.get(i + 1))) {
+				fn.add(i + 1, '*');
+			} else if (i < fn.size() - 2 && chars.contains(fn.get(i)) && fn.get(i + 1).equals('\'') && chars.contains(fn.get(i + 2))) {
+				fn.add(i + 2, '*');
+			}
+		}
+		function = fn.stream().map(String::valueOf).collect(Collectors.joining(""));
+		System.out.println(function);
 	}
 
 	private String calculate(String fn) {
