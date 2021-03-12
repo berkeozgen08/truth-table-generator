@@ -1,4 +1,4 @@
-Usage:  
+## Usage  
 ```java
 TruthTable truthTable = new TruthTable("e + d' * (a' + (b*c))");  
 truthTable.printSolution();
